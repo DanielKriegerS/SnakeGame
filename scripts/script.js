@@ -1,6 +1,11 @@
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
+const score = document.querySelector(".scoreValue");
+const finalScore = document.querySelector(".finalScore > span");
+const menu = document.querySelector(".menuScreen");
+const buttonPlay = document.querySelector(".btnPlay");
+
 const size = 50;
 
 const audio = new Audio('../assets/audio.mp3');
@@ -8,6 +13,10 @@ const audio = new Audio('../assets/audio.mp3');
 const snake = [
     {x: 200, y:200}
 ];
+
+const incrementScore = () => {
+    score.innerText = parseInt(score.innerText) + 10;
+}
 
 const randomNumber = (min, max) => {
     return Math.round(Math.random() * (max - min) + min);
@@ -107,6 +116,7 @@ const checkEat = () => {
     const head = snake[snake.length - 1];
     
     if(head.x == food.x && head.y == food.y){
+        incrementScore();
         snake.push(head);
         audio.play();
 
@@ -126,6 +136,30 @@ const checkEat = () => {
     
 }
 
+const checkCollision = () => {
+    const head = snake[snake.length -1];
+
+    const neckIndex = snake[snake.length -1];
+
+    const wallCollision = head.x < 0 || head.x > (canvas.width - size) || head.y < 0 || head.y > (canvas.height - size)
+
+    const selfCollision = snake.find((position, index) => {
+        return index < neckIndex && position.x == head.x && position.y == head.y;
+    })
+
+    if(wallCollision || selfCollision){
+        alert("Você perdeu.");
+        gameOver();
+    }
+}
+
+const gameOver = () => {
+    direction = undefined;
+    menu.style.display = "flex";
+    finalScore.innerText = score;
+    canvas.style.filter = "blur(5px)"
+}
+
 const gameLoop = () => {
     clearInterval(loopId);
 
@@ -135,6 +169,7 @@ const gameLoop = () => {
     moveSnake();
     drawSnake();
     checkEat();
+    checkCollision();
 
     loopId = setTimeout(() => {
         gameLoop();
@@ -159,4 +194,9 @@ document.addEventListener("keydown", ({key}) => {
             break;    
     }
         
+})
+
+buttonPlay.addEventListener("click", () => {
+    score.innerHTML = "00";
+    menu.style.display = "none"
 })

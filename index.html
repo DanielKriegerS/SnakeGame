@@ -6,9 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game</title>
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" type="text/css" href="./styles/style.css">
 </head>
 <body>
+    <div class="score"> Score:
+        <span class="scoreValue">00</span>
+    </div>
+
+    <div class="menuScreen">
+        <span class="gameOver">Game Over</span>
+        <span class="finalScore">Score: <span>00</span></span>
+
+        <button class="btnPlay">
+            <span class="material-symbols-outlined">
+                play_circle
+            </span>
+            Jogar novamente?
+        </button>
+    </div>
+
     <canvas width="500" height="500"></canvas>
     <script src="./scripts/script.js"></script>
 </body>
