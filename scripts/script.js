@@ -4,21 +4,46 @@ const ctx = canvas.getContext("2d");
 const size = 50;
 
 const snake = [
-    {x: 200, y:200},
-    {x: 250, y:200}
+    {x: 200, y:200}
 ];
 
+const randomNumber = (min, max) => {
+    return Math.round(Math.random() * (max - min) + min);
+}
+
+const randomPosition = () => {
+    const number = randomNumber(0, canvas.width - size);
+    return Math.round(number / 50) * 50;
+}
+
+const randomColor = () => {
+    let red, green, blue;
+
+    red = randomNumber(0, 255);
+    green = randomNumber(0, 255);
+    blue = randomNumber(0, 255);
+
+    return `rgb(${red}, ${green}, ${blue})`;
+}
+
+
 const food = {
-    x:90,
-    y:90,
-    color: "green"
+    x:randomPosition(),
+    y:randomPosition(),
+    color: randomColor(),
 }
 
 let direction, loopId;
 
 const drawFood = () => {
+
+    const { x, y, color} = food;
+
+    ctx.shadowColor = color;
+    ctx.shadowBlur = 6;
     ctx.fillStyle = food.color;
-    ctx.fillRect(food.x, food.y, size, size);
+    ctx.fillRect(x, y, size, size);
+    ctx.shadowBlur = 0;
 
 }
 
@@ -76,6 +101,17 @@ const drawGrid = () => {
     
 }
 
+const checkEat = () => {
+    const head = snake[snake.length - 1];
+    
+    if(head.x == food.x && head.y == food.y){
+        snake.push(head);
+
+        food.x = randomPosition();
+        food.y = randomPosition();
+        food.color = randomColor();
+    }
+}
 
 const gameLoop = () => {
     clearInterval(loopId);
@@ -85,6 +121,7 @@ const gameLoop = () => {
     drawFood();
     moveSnake();
     drawSnake();
+    checkEat();
 
     loopId = setTimeout(() => {
         gameLoop();
