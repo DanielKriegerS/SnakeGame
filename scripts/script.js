@@ -179,19 +179,20 @@ const gameLoop = () => {
 gameLoop();
 
 document.addEventListener("keydown", ({key}) => {
-    switch(key){
-        case "ArrowRight":
-            direction = "right";
-            break;
-        case "ArrowLeft":
-            direction = "left";
-            break;
-        case "ArrowUp":
-           direction = "up";
-            break;
-        case "ArrowDown":
-            direction = "down";
-            break;    
+    if (key == "ArrowRight" && direction != "left") {
+        direction = "right"
+    }
+
+    if (key == "ArrowLeft" && direction != "right") {
+        direction = "left"
+    }
+
+    if (key == "ArrowDown" && direction != "up") {
+        direction = "down"
+    }
+
+    if (key == "ArrowUp" && direction != "down") {
+        direction = "up"
     }
         
 })
