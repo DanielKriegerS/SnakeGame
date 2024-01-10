@@ -107,10 +107,18 @@ const checkEat = () => {
     if(head.x == food.x && head.y == food.y){
         snake.push(head);
 
-        food.x = randomPosition();
-        food.y = randomPosition();
-        food.color = randomColor();
+        let x = randomPosition();
+        let y = randomPosition();
+
+        while (snake.find((position) => position.x == x && position.y == y)){
+            x = randomPosition();
+            y = randomPosition();
+        }
     }
+
+    food.x = x;
+    food.y = y;
+    food.color = randomColor();
 }
 
 const gameLoop = () => {
