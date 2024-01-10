@@ -3,6 +3,8 @@ const ctx = canvas.getContext("2d");
 
 const size = 50;
 
+const audio = new Audio('../assets/audio.mp3');
+
 const snake = [
     {x: 200, y:200}
 ];
@@ -106,6 +108,7 @@ const checkEat = () => {
     
     if(head.x == food.x && head.y == food.y){
         snake.push(head);
+        audio.play();
 
         let x = randomPosition();
         let y = randomPosition();
@@ -114,11 +117,13 @@ const checkEat = () => {
             x = randomPosition();
             y = randomPosition();
         }
+
+        food.x = x;
+        food.y = y;
+        food.color = randomColor();
     }
 
-    food.x = x;
-    food.y = y;
-    food.color = randomColor();
+    
 }
 
 const gameLoop = () => {
